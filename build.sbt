@@ -1,55 +1,45 @@
-import sbt.Keys.dependencyOverrides
-
 organization := "io.newsbridge.io.newsbridge.sample"
 name := "io.newsbridge.sample-akka-consul"
-version := "1.0.0"
 
-lazy val akkaVersion = "2.5.4"
-lazy val akkaHttpVersion = "10.0.9"
+lazy val akkaVersion      = "2.5.6"
+lazy val akkaHttpVersion  = "10.0.10"
+lazy val ConstructrAkka = "0.17.0"
+lazy val Circe          = "0.7.1"
 
 
-
-lazy val commonDependencies = Seq(
-  "com.typesafe.akka" %% "akka-http"              % akkaHttpVersion,
-  "com.typesafe.akka" %% "akka-parsing"           % akkaHttpVersion,
-  "com.typesafe.akka" %% "akka-http-spray-json"   % akkaHttpVersion,
+libraryDependencies := Seq(
+  "com.typesafe.akka"   %% "akka-http"              % akkaHttpVersion,
+  "com.typesafe.akka"   %% "akka-parsing"           % akkaHttpVersion,
+  "com.typesafe.akka"   %% "akka-http-spray-json"   % akkaHttpVersion,
   // ----------------
-  "com.typesafe.akka" %% "akka-actor"             % akkaVersion,
-  "com.typesafe.akka" %% "akka-stream"            % akkaVersion,
-  "com.typesafe.akka" %% "akka-slf4j"             % akkaVersion,
+  "com.typesafe.akka"   %% "akka-actor"             % akkaVersion,
+  "com.typesafe.akka"   %% "akka-stream"            % akkaVersion,
+  "com.typesafe.akka"   %% "akka-slf4j"             % akkaVersion,
   // ----------------
-  "com.typesafe.akka" %% "akka-stream"            % akkaVersion,
-  "com.typesafe.akka" %% "akka-actor"             % akkaVersion,
+  "com.typesafe.akka"   %% "akka-stream"            % akkaVersion,
+  "com.typesafe.akka"   %% "akka-actor"             % akkaVersion,
   // ----------------
-  "com.typesafe.akka" %% "akka-cluster"           % akkaVersion,
-  "com.typesafe.akka" %% "akka-cluster-metrics"   % akkaVersion,
-  "com.typesafe.akka" %% "akka-cluster-sharding"  % akkaVersion,
-  "com.typesafe.akka" %% "akka-remote"            % akkaVersion,
-  "com.typesafe.akka" %% "akka-cluster-tools"     % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster"           % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster-metrics"   % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster-sharding"  % akkaVersion,
+  "com.typesafe.akka"   %% "akka-remote"            % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster-tools"     % akkaVersion,
   // ----------------
-  "com.orbitz.consul" % "consul-client"           % "0.13.3"
+  "de.heikoseeberger"   %% "constructr"             % ConstructrAkka,
+  "io.circe"            %% "circe-parser"           % Circe,
+  // ----------------
+  "com.lightbend.akka"  %% "akka-management-cluster-http" % "0.5"
 )
 
 
-lazy val commonDependencyOverrides = Set(
-  "com.typesafe.akka"  %% "akka-actor"   % akkaVersion,
-  "com.typesafe.akka"  %% "akka-stream"  % akkaVersion,
-  "com.typesafe.akka"  %% "akka-cluster" % akkaVersion
-)
+mainClass in (Compile, run) := Some("io.newsbridge.sample.DemoApp")
 
+enablePlugins(DockerPlugin, JavaAppPackaging)
 
-
-lazy val sampleWeb = project.in(file("web"))
-  .settings(
-    name := "sampleWeb",
-    scalaVersion := "2.12.3",
-    libraryDependencies := commonDependencies,
-    dependencyOverrides:= commonDependencyOverrides
-)
-/*
-dependencyOverrides += "com.typesafe.akka"  %% "akka-actor"   % akkaVersion,
-    dependencyOverrides += "com.typesafe.akka"  %% "akka-stream"  % akkaVersion,
-    dependencyOverrides += "com.typesafe.akka"  %% "akka-cluster" % akkaVersion
-
- */
-
+NativePackagerKeys.packageName     in Docker   := s"sample-akka-consul"
+maintainer                         in Docker   := "Newsbridge technical support <develop@newsbridge.io>"
+dockerBaseImage            := "openjdk:8u141-jre-slim"
+//dockerCmd                  := Seq("apt-get update && apt-get install -y iputils-ping")
+dockerEntrypoint           := Seq(s"bin/${name.value.toLowerCase}", "-Dconfig.resource=application.conf" )
+dockerExposedPorts         := Seq(5000,2550,5010)
+dockerUpdateLatest         := true
