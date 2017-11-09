@@ -1,5 +1,5 @@
 organization := "io.newsbridge.io.newsbridge.sample"
-name := "io.newsbridge.sample-akka-consul"
+name := "sample-akka-consul"
 
 lazy val akkaVersion      = "2.5.6"
 lazy val akkaHttpVersion  = "10.0.10"
@@ -36,7 +36,7 @@ mainClass in (Compile, run) := Some("io.newsbridge.sample.DemoApp")
 
 enablePlugins(DockerPlugin, JavaAppPackaging)
 
-NativePackagerKeys.packageName     in Docker   := s"sample-akka-consul"
+NativePackagerKeys.packageName     in Docker   := name.value
 maintainer                         in Docker   := "Newsbridge technical support <develop@newsbridge.io>"
 dockerBaseImage            := "openjdk:8u141-jre-slim"
 //dockerCmd                  := Seq("apt-get update && apt-get install -y iputils-ping")
