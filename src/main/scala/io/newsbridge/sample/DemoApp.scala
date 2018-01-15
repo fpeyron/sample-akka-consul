@@ -22,8 +22,6 @@ object DemoApp extends App with DemoServiceSupport {
   // needed for the future map/flatMap in the end
   implicit val ec: ExecutionContextExecutor = system.dispatcher
 
-  //implicit val requestTimeout: Timeout = Timeout(2.seconds)
-
   val cluster = Cluster(system)
   ClusterHttpManagement(cluster).start()
 

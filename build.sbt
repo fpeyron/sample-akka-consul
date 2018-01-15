@@ -1,31 +1,33 @@
 organization := "io.newsbridge.io.newsbridge.sample"
 name := "sample-akka-consul"
 
-lazy val akkaVersion      = "2.5.6"
-lazy val akkaHttpVersion  = "10.0.10"
-lazy val ConstructrAkka = "0.17.0"
-lazy val Circe          = "0.7.1"
+lazy val akkaVersion      = "2.5.8"
+lazy val akkaHttpVersion  = "10.0.11"
+lazy val ConstructrAkka   = "0.18.1"
 
+resolvers += Resolver.bintrayRepo("everpeace", "maven")
 
 libraryDependencies := Seq(
-  "com.typesafe.akka"   %% "akka-http"              % akkaHttpVersion,
-  "com.typesafe.akka"   %% "akka-parsing"           % akkaHttpVersion,
-  "com.typesafe.akka"   %% "akka-http-spray-json"   % akkaHttpVersion,
+  "com.typesafe.akka"   %% "akka-http"                      % akkaHttpVersion,
+  "com.typesafe.akka"   %% "akka-parsing"                   % akkaHttpVersion,
+  "com.typesafe.akka"   %% "akka-http-spray-json"           % akkaHttpVersion,
   // ----------------
-  "com.typesafe.akka"   %% "akka-actor"             % akkaVersion,
-  "com.typesafe.akka"   %% "akka-slf4j"             % akkaVersion,
-  "com.typesafe.akka"   %% "akka-stream"            % akkaVersion,
+  "com.typesafe.akka"   %% "akka-actor"                     % akkaVersion,
+  "com.typesafe.akka"   %% "akka-slf4j"                     % akkaVersion,
+  "com.typesafe.akka"   %% "akka-stream"                    % akkaVersion,
   // ----------------
-  "com.typesafe.akka"   %% "akka-cluster"           % akkaVersion,
-  "com.typesafe.akka"   %% "akka-cluster-metrics"   % akkaVersion,
-  "com.typesafe.akka"   %% "akka-cluster-sharding"  % akkaVersion,
-  "com.typesafe.akka"   %% "akka-remote"            % akkaVersion,
-  "com.typesafe.akka"   %% "akka-cluster-tools"     % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster"                   % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster-metrics"           % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster-sharding"          % akkaVersion,
+  "com.typesafe.akka"   %% "akka-remote"                    % akkaVersion,
+  "com.typesafe.akka"   %% "akka-cluster-tools"             % akkaVersion,
   // ----------------
-  "de.heikoseeberger"   %% "constructr"             % ConstructrAkka,
-  "io.circe"            %% "circe-parser"           % Circe,
+  "de.heikoseeberger"   %% "constructr"                     % ConstructrAkka,
+  "com.github.everpeace" %% "constructr-coordination-redis" % "0.0.4",
   // ----------------
-  "com.lightbend.akka"  %% "akka-management-cluster-http" % "0.5"
+  "com.lightbend.akka"  %% "akka-management-cluster-http"   % "0.5"
+
+
 )
 
 
