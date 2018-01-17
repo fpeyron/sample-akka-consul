@@ -11,6 +11,9 @@ services:
 script:
   - sbt ++$TRAVIS_SCALA_VERSION test
   - sbt ++$TRAVIS_SCALA_VERSION docker:publishLocal
+  - pip install --user awscli
+  - export PATH=$PATH:/$HOME/.local/bin
+  - eval $(aws ecr get-login --region eu-west-1)
   - $(aws ecr get-login --no-include-email --region eu-west-1)
   - docker tag $REPO:$TRAVIS_BUILD_NUMBER $AWS_ACCOUNT_NUMBER.dkr.ecr.eu-west-1.amazonaws.com/$REPO:latest
   - docker push $AWS_ACCOUNT_NUMBER.dkr.ecr.eu-west-1.amazonaws.com/$REPO:latest
