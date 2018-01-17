@@ -1,35 +1,14 @@
 version: '3.0'
 services:
-  sample-consul1:
-    container_name: sample-consul1
-    image: consul:latest
-    command: consul agent -server -client=0.0.0.0 -bootstrap-expect=1 -data-dir=/tmp/consul -ui
-    hostname: sample-consul1
+  sample-redis:
+    container_name: sample-redis
+    image: redis:latest
+    #command: consul agent -server -client=0.0.0.0 -bootstrap-expect=1 -data-dir=/tmp/consul -ui
+    hostname: sample-redis
     networks:
       - sample
     ports:
-      - "8301:8300"
-      - "8401:8400"
-      - "8501:8500"
-      - "8601:8600"
-      - "9001:9001"
-
-  sample-consul2:
-    container_name: sample-consul2
-    image: consul:latest
-    command: consul agent -server -client=0.0.0.0 -rejoin -retry-join=sample-consul1 -data-dir=/tmp/consul -ui
-    hostname: sample-consul2
-    networks:
-      - sample
-    depends_on:
-      - sample-consul1
-    ports:
-      - "8302:8300"
-      - "8402:8400"
-      - "8502:8500"
-      - "8602:8600"
-      - "9002:9001"
-
+      - "16379:6379"
 
   sample-akka1:
     container_name: sample-akka1
@@ -38,15 +17,15 @@ services:
     networks:
       - sample
     depends_on:
-      - sample-consul1
+      - sample-redis
     ports:
       - "5001:5000"
       - "5011:5010"
       - "2550"
     environment:
-      - CONSUL_HOST=sample-consul1
-      - CONSUL_PORT=8500
-      - CONSUL_AGENT=sample-consul1
+      #- REDIS_HOST=sample-redis
+      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
+      - REDIS_PORT=16379
       - SERVICE_AKKA_HOST=sample-akka1
       - SERVICE_AKKA_PORT=2550
 
@@ -57,15 +36,15 @@ services:
     networks:
       - sample
     depends_on:
-      - sample-consul1
+      - sample-redis
     ports:
       - "5002:5000"
       - "5012:5010"
       - "2550"
     environment:
-      - CONSUL_HOST=sample-consul1
-      - CONSUL_PORT=8500
-      - CONSUL_AGENT=sample-consul1
+      #- REDIS_HOST=sample-redis
+      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
+      - REDIS_PORT=16379
       - SERVICE_AKKA_HOST=sample-akka2
       - SERVICE_AKKA_PORT=2550
 
@@ -76,15 +55,15 @@ services:
     networks:
       - sample
     depends_on:
-      - sample-consul2
+      - sample-redis
     ports:
       - "5003:5000"
       - "5013:5010"
       - "2550"
     environment:
-      - CONSUL_HOST=sample-consul2
-      - CONSUL_PORT=8500
-      - CONSUL_AGENT=sample-consul2
+      #- REDIS_HOST=sample-redis
+      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
+      - REDIS_PORT=16379
       - SERVICE_AKKA_HOST=sample-akka3
       - SERVICE_AKKA_PORT=2550
 
@@ -95,15 +74,15 @@ services:
     networks:
       - sample
     depends_on:
-      - sample-consul2
+      - sample-redis
     ports:
       - "5004:5000"
       - "5014:5010"
       - "2550"
     environment:
-      - CONSUL_HOST=sample-consul2
-      - CONSUL_PORT=8500
-      - CONSUL_AGENT=sample-consul2
+      #- REDIS_HOST=sample-redis
+      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
+      - REDIS_PORT=16379
       - SERVICE_AKKA_HOST=sample-akka4
       - SERVICE_AKKA_PORT=2550
 

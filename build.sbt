@@ -36,9 +36,13 @@ mainClass in (Compile, run) := Some("io.newsbridge.sample.DemoApp")
 enablePlugins(DockerPlugin, JavaAppPackaging)
 
 NativePackagerKeys.packageName     in Docker   := name.value
-maintainer                         in Docker   := "Newsbridge technical support <develop@newsbridge.io>"
-dockerBaseImage            := "openjdk:8u141-jre-slim"
-//dockerCmd                  := Seq("apt-get update && apt-get install -y iputils-ping")
+maintainer                         in Docker   := "technical support <florent.peyron@gmail.com>"
+dockerBaseImage            := "openjdk:8u151-jre-slim"
+//dockerCmd                  := Seq("apt-get update && apt-get install -y apt install curl")
+dockerCmd                  := Seq("apt-get install -y curl")
 dockerEntrypoint           := Seq(s"bin/${name.value.toLowerCase}", "-Dconfig.resource=application.conf" )
 dockerExposedPorts         := Seq(5000,2550,5010)
 dockerUpdateLatest         := true
+
+//dockerCmd                  := Seq("apk add --no-cache curl")
+//dockerEntrypoint           := Seq(s"bin/${name.value.toLowerCase}", "${JAVA_OPTS} -Dconfig.resource=application.conf")
