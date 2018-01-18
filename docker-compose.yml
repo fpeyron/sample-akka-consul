@@ -7,8 +7,8 @@ services:
     hostname: sample-redis
     networks:
       - sample
-    ports:
-      - "16379:6379"
+    #ports:
+      #- "16379:6379"
 
   sample-akka1:
     container_name: sample-akka1
@@ -23,9 +23,8 @@ services:
       - "5011:5010"
       - "2550"
     environment:
-      #- REDIS_HOST=sample-redis
-      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
-      - REDIS_PORT=16379
+      - REDIS_HOST=sample-redis
+      - REDIS_PORT=6379
       - SERVICE_AKKA_HOST=sample-akka1
       - SERVICE_AKKA_PORT=2550
 
@@ -42,9 +41,8 @@ services:
       - "5012:5010"
       - "2550"
     environment:
-      #- REDIS_HOST=sample-redis
-      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
-      - REDIS_PORT=16379
+      - REDIS_HOST=sample-redis
+      - REDIS_PORT=6379
       - SERVICE_AKKA_HOST=sample-akka2
       - SERVICE_AKKA_PORT=2550
 
@@ -61,9 +59,8 @@ services:
       - "5013:5010"
       - "2550"
     environment:
-      #- REDIS_HOST=sample-redis
-      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
-      - REDIS_PORT=16379
+      - REDIS_HOST=sample-redis
+      - REDIS_PORT=6379
       - SERVICE_AKKA_HOST=sample-akka3
       - SERVICE_AKKA_PORT=2550
 
@@ -80,9 +77,8 @@ services:
       - "5014:5010"
       - "2550"
     environment:
-      #- REDIS_HOST=sample-redis
-      - REDIS_HOST=ec2-54-77-186-236.eu-west-1.compute.amazonaws.com
-      - REDIS_PORT=16379
+      - REDIS_HOST=sample-redis
+      - REDIS_PORT=6379
       - SERVICE_AKKA_HOST=sample-akka4
       - SERVICE_AKKA_PORT=2550
 
