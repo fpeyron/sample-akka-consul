@@ -40,7 +40,8 @@ maintainer                         in Docker   := "technical support <florent.pe
 dockerBaseImage            := "openjdk:8u151-jre-slim"
 //dockerCmd                  := Seq("apt-get update && apt-get install -y apt install curl")
 dockerCmd                  := Seq("apt-get install -y curl")
-dockerEntrypoint           := Seq(s"bin/${name.value.toLowerCase}", "-Dconfig.resource=application.conf" )
+//dockerEntrypoint           := Seq("SERVICE_AKKA_HOST=$(usr/bin/curl -s --connect-timeout 1 http://169.254.169.25^4/latest/meta-data/local-ipv4)  &&", s"bin/${name.value.toLowerCase}", "-Dconfig.resource=application.conf" )
+dockerEntrypoint           := Seq(s"bin/${name.value.toLowerCase}", "-Dconfig.resource=application.conf", "-Dakka.remote.bind-hostname=$(usr/bin/curl -s --connect-timeout 1 http://169.254.169.25^4/latest/meta-data/local-ipv4)", "-dakka.remote.hostname=$(usr/bin/curl -s --connect-timeout 1 http://169.254.169.25^4/latest/meta-data/local-ipv4)" )
 dockerExposedPorts         := Seq(5000,2550,5010)
 dockerUpdateLatest         := true
 
